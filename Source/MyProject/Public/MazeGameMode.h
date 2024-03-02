@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "GameFramework/DefaultPawn.h"
+#include "MazeCharacter.h"
 #include "MazeGameMode.generated.h"
+
 
 /**
  * 
@@ -13,5 +16,11 @@ UCLASS()
 class MYPROJECT_API AMazeGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+public:
+	void InitGameState() override;
+private:
+	UPROPERTY(EditAnywhere, NoClear)
+	TSubclassOf<AMazeCharacter> DefaultPlayerCharacter = AMazeCharacter::StaticClass();
+
 };
+

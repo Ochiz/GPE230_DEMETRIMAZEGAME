@@ -29,6 +29,23 @@ void AMazeCharacter::Tick(float DeltaTime)
 void AMazeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis(TEXT("MoveFB"), this, &AMazeCharacter::MoveFB);
+	PlayerInputComponent->BindAxis(TEXT("MoveLR"), this, &AMazeCharacter::MoveLR);
+	PlayerInputComponent->BindAxis(TEXT("Rotate"), this, &AMazeCharacter::Rotate);
+}
 
+void AMazeCharacter::MoveFB(float value)
+{
+	AddMovementInput(GetActorForwardVector(), value* moveSpeed);
+}
+
+void AMazeCharacter::MoveLR(float value)
+{
+	AddMovementInput(-GetActorRightVector(), value * moveSpeed);
+}
+
+void AMazeCharacter::Rotate(float value)
+{
+	AddControllerYawInput(value * rotationSpeed);
 }
 
