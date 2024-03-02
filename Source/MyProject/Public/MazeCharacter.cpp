@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyCharacter.h"
+#include "MazeCharacter.h"
 
 // Sets default values
-AMyCharacter::AMyCharacter()
+AMazeCharacter::AMazeCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,21 +12,21 @@ AMyCharacter::AMyCharacter()
 }
 
 // Called when the game starts or when spawned
-void AMyCharacter::BeginPlay()
+void AMazeCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AMyCharacter::Tick(float DeltaTime)
+void AMazeCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
 // Called to bind functionality to input
-void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AMazeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 

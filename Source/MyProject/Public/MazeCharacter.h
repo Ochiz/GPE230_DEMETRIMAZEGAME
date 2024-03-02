@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "MyCharacter.generated.h"
+#include "MazeCharacter.generated.h"
 
 UCLASS()
-class MYPROJECT_API AMyCharacter : public ACharacter
+class MYPROJECT_API AMazeCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AMyCharacter();
+	AMazeCharacter();
 
 protected:
 	// Called when the game starts or when spawned
