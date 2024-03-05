@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+//include needed files
 #include "MazeCharacter.h"
 
 // Sets default values
@@ -33,17 +33,17 @@ void AMazeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis(TEXT("MoveLR"), this, &AMazeCharacter::MoveLR);
 	PlayerInputComponent->BindAxis(TEXT("Rotate"), this, &AMazeCharacter::Rotate);
 }
-
+//move forward/backwards definition
 void AMazeCharacter::MoveFB(float value)
 {
-	AddMovementInput(GetActorForwardVector(), value* moveSpeed);
+	AddMovementInput(GetActorForwardVector(), value * moveSpeed);
 }
-
+//move left/right definition
 void AMazeCharacter::MoveLR(float value)
 {
 	AddMovementInput(-GetActorRightVector(), value * moveSpeed);
 }
-
+//rotate definition
 void AMazeCharacter::Rotate(float value)
 {
 	AddControllerYawInput(value * rotationSpeed);
