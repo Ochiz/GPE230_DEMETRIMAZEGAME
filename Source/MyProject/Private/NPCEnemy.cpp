@@ -2,7 +2,9 @@
 
 
 #include "NPCEnemy.h"
-
+#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
 // Sets default values
 ANPCEnemy::ANPCEnemy()
 {
@@ -17,6 +19,34 @@ void ANPCEnemy::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
+void ANPCEnemy::DetectHit()
+{
+	bool canDamage = true;
+	const FVector PunchLocation = GetMesh()->GetSocketLocation(_PunchingHandSocketName);
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(this);
+	ActorsToIgnore.Add(GetOwner());
+	TArray<FHitResult> HitArray;
+
+	const bool Hit = UKismetSystemLibrary::SphereTraceMulti(GetWorld(), PunchLocation, PunchLocation, _TraceRadius,
+	UEngineTypes::ConvertToTraceType(ECC_Camera), false, ActorsToIgnore, EDrawDebugTrace::None, HitArray, true, FLinearColor::Red, FLinearColor::Green, 2.0f);
+	FString ownerName = this->GetName();
+	if (Hit)
+	{
+		for (const FHitResult HitResult : HitArray)
+		{
+			if (canDamage)
+			{
+				FString hitActorName = HitResult.GetActor()->GetName();
+				UE_LOG(LogTemp, Log, TEXT("NPCEnemy actor \"%s\" hit other actor \"%s\", dealing %f damage."), *ownerName, *hitActorName, _HitDamage);
+				UGameplayStatics::ApplyDamage(HitResult.GetActor(), _HitDamage, GetController(), this, UDamageType::StaticClass());
+				canDamage = false;
+			}
+		}
+	}
+}
+
 
 // Called every frame
 void ANPCEnemy::Tick(float DeltaTime)

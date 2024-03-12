@@ -31,6 +31,9 @@ private:
 		float moveSpeed;
 	UPROPERTY(EditAnywhere)
 		float rotationSpeed;
+	UPROPERTY(EditAnywhere)
+		UAnimSequence* _deathAnim;
+	bool _isDead = false;
 private:
 	//function declaration
 	void MoveFB(float value);

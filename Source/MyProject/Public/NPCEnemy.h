@@ -18,6 +18,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable, Category = "Collision")
+		void DetectHit();
 
 public:	
 	// Called every frame
@@ -25,5 +27,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+private:
+	UPROPERTY(EditAnywhere)
+		float _TraceRadius = 500.0f;
+	UPROPERTY(EditAnywhere)
+		FName _PunchingHandSocketName;
+	UPROPERTY(EditAnywhere)
+		float _HitDamage;
 };

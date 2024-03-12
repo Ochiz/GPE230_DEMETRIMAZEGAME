@@ -53,17 +53,28 @@ void AMazeCharacter::Rotate(float value)
 float AMazeCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	_currentHealth -= DamageAmount;
-
-	if (_currentHealth <= 0)
+	if (!_isDead)
 	{
-		Die();
+		_currentHealth -= DamageAmount;
+		if (_currentHealth <= 0)
+		{
+			Die();
+		}
+		return DamageAmount;
 	}
-	return DamageAmount;
+	else
+	{
+		return 0;
+	}
 }
 
 void AMazeCharacter::Die()
 {
+	_isDead = true;
+	_currentHealth = 0;
 	moveSpeed = 0;
 	rotationSpeed = 0;
+
+	GetMesh()->PlayAnimation(_deathAnim, false);
 }
 
