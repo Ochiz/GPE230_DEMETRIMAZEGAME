@@ -36,4 +36,13 @@ private:
 	void MoveFB(float value);
 	void MoveLR(float value);
 	void Rotate(float value);
+
+//Health 
+public:
+	UPROPERTY(EditAnywhere)
+		float maxHealth;
+protected:
+	float _currentHealth;
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	virtual void Die();
 };

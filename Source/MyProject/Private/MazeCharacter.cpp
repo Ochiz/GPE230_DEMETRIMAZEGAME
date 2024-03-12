@@ -15,6 +15,7 @@ AMazeCharacter::AMazeCharacter()
 void AMazeCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	_currentHealth = maxHealth;
 	
 }
 
@@ -47,5 +48,22 @@ void AMazeCharacter::MoveLR(float value)
 void AMazeCharacter::Rotate(float value)
 {
 	AddControllerYawInput(value * rotationSpeed);
+}
+
+float AMazeCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	_currentHealth -= DamageAmount;
+
+	if (_currentHealth <= 0)
+	{
+		Die();
+	}
+	return DamageAmount;
+}
+
+void AMazeCharacter::Die()
+{
+	moveSpeed = 0;
+	rotationSpeed = 0;
 }
 
