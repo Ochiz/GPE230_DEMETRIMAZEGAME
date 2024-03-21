@@ -34,15 +34,30 @@ void AMazeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis(TEXT("MoveLR"), this, &AMazeCharacter::MoveLR);
 	PlayerInputComponent->BindAxis(TEXT("Rotate"), this, &AMazeCharacter::Rotate);
 }
+void AMazeCharacter::ActivateStunParticleSystem()
+{
+	if (_stunSystem)
+	{
+		USceneComponent* AttachComp = GetDefaultAttachComponent();
+		UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAttached(_stunSystem, AttachComp, NAME_None, FVector(0), FRotator(0), EAttachLocation::Type::KeepRelativeOffset, true);
+
+		NiagaraComp->Activate();
+
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Player attempted to use stun ability, but no template particle system was found"));
+	}
+}
 //move forward/backwards definition
 void AMazeCharacter::MoveFB(float value)
 {
-	AddMovementInput(GetActorForwardVector(), value * moveSpeed);
+	AddMovementInput(GetActorForwardVector(), value * CurrentMoveSpeed);
 }
 //move left/right definition
 void AMazeCharacter::MoveLR(float value)
 {
-	AddMovementInput(-GetActorRightVector(), value * moveSpeed);
+	AddMovementInput(-GetActorRightVector(), value * CurrentMoveSpeed);
 }
 //rotate definition
 void AMazeCharacter::Rotate(float value)
@@ -67,14 +82,30 @@ float AMazeCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageE
 		return 0;
 	}
 }
-
+void AMazeCharacter::Heal(float healAmount)
+{
+	_currentHealth += healAmount;
+	if (_currentHealth > maxHealth)
+		_currentHealth = maxHealth;
+}
 void AMazeCharacter::Die()
 {
 	_isDead = true;
 	_currentHealth = 0;
-	moveSpeed = 0;
+	CurrentMoveSpeed = 0;
 	rotationSpeed = 0;
 
 	GetMesh()->PlayAnimation(_deathAnim, false);
+}
+void AMazeCharacter::IncreaseSpeed(float Amount, float Duration)
+{
+	CurrentMoveSpeed += Amount;
+	// Set a timer to reset the speed after the duration
+	GetWorld()->GetTimerManager().SetTimer(SpeedBuffTimerHandle, this, &AMazeCharacter::ResetSpeed, Duration, false);
+}
+
+void AMazeCharacter::ResetSpeed()
+{
+	
 }
 

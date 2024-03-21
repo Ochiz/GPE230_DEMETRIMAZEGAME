@@ -4,6 +4,8 @@
 //include needed files
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "MazeCharacter.generated.h"
 //class declaration
 UCLASS()
@@ -28,24 +30,34 @@ public:
 private:
 	//variable declaration
 	UPROPERTY(EditAnywhere)
-		float moveSpeed;
+		float CurrentMoveSpeed;
+	UPROPERTY(EditAnywhere)
+		float MinMoveSpeed;
 	UPROPERTY(EditAnywhere)
 		float rotationSpeed;
 	UPROPERTY(EditAnywhere)
 		UAnimSequence* _deathAnim;
 	bool _isDead = false;
+	UPROPERTY(EditAnywhere)
+		UNiagaraSystem* _stunSystem;
+	UFUNCTION(BlueprintCallable)
+		void ActivateStunParticleSystem();
 private:
 	//function declaration
 	void MoveFB(float value);
 	void MoveLR(float value);
 	void Rotate(float value);
-
+	FTimerHandle SpeedBuffTimerHandle;
 //Health 
 public:
+	virtual void Heal(float healAmount);
 	UPROPERTY(EditAnywhere)
 		float maxHealth;
+	void IncreaseSpeed(float Amount, float Duration);
+	void ResetSpeed();
 protected:
 	float _currentHealth;
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void Die();
+	
 };
