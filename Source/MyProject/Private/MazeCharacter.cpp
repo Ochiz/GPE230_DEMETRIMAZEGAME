@@ -15,8 +15,14 @@ AMazeCharacter::AMazeCharacter()
 void AMazeCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	_controller = Cast<APlayerController>(GetController());
 	_currentHealth = maxHealth;
+	CurrentMoveSpeed = BaseMoveSpeed;
 	
+	_gameOverScreenInstance = CreateWidget(GetWorld(), _gameOverScreenTemplate);
+	_victoryScreenInstance = CreateWidget(GetWorld(), _victoryScreenTemplate);
+	_HudInstance = CreateWidget(GetWorld(), _HudTemplate);
+	_HudInstance->AddToViewport();
 }
 
 // Called every frame
@@ -96,16 +102,37 @@ void AMazeCharacter::Die()
 	rotationSpeed = 0;
 
 	GetMesh()->PlayAnimation(_deathAnim, false);
+	float AnimDuration = _deathAnim->GetPlayLength();
+	GetWorld()->GetTimerManager().SetTimer(GameOverScreenTimerHandle, this, &AMazeCharacter::OpenGameOverScreen, AnimDuration, false);
 }
 void AMazeCharacter::IncreaseSpeed(float Amount, float Duration)
 {
-	CurrentMoveSpeed += Amount;
-	// Set a timer to reset the speed after the duration
-	GetWorld()->GetTimerManager().SetTimer(SpeedBuffTimerHandle, this, &AMazeCharacter::ResetSpeed, Duration, false);
+	CurrentMoveSpeed += Amount; // Apply the buff
+	GetWorld()->GetTimerManager().SetTimer(SpeedBuffTimerHandle, [this, Amount]()
+		{
+			CurrentMoveSpeed -= Amount;
+		}, Duration, false);
 }
-
-void AMazeCharacter::ResetSpeed()
+void AMazeCharacter::PauseGamePlay(bool bIsPaused)
 {
-	
+	_controller->SetPause(bIsPaused);
+}
+void AMazeCharacter::ShowMouseCursor()
+{
+	_controller->bShowMouseCursor = true;
+}
+void AMazeCharacter::OpenVictoryScreen()
+{
+	_victoryScreenInstance->AddToViewport();
+	ShowMouseCursor();
+}
+void AMazeCharacter::OpenGameOverScreen()
+{
+	_gameOverScreenInstance->AddToViewport();
+	ShowMouseCursor();
+}
+float AMazeCharacter::GetCurrentHealth()
+{
+	return _currentHealth;
 }
 
