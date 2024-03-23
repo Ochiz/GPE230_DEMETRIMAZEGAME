@@ -16,6 +16,7 @@ void ASpeedPack::CheckActorType(AActor* OverlappedActor, AActor* OtherActor)
 
 void ASpeedPack::ApplySpeedBuff(AActor* MazeCharacter)
 {
+    UGameplayStatics::PlaySound2D(this, pickupSound);
     AMazeCharacter* Character = Cast<AMazeCharacter>(MazeCharacter);
     if (Character)
     {

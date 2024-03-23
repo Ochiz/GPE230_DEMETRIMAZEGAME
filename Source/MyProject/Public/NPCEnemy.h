@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 #include "NPCEnemy.generated.h"
 
 UCLASS()
@@ -20,13 +21,16 @@ protected:
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable, Category = "Collision")
 		void DetectHit();
-
+	UPROPERTY(EditAnywhere)
+		USoundWave* punchSound;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	
 private:
 	UPROPERTY(EditAnywhere)
 		float _TraceRadius = 500.0f;

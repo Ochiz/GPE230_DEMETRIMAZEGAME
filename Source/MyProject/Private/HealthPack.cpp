@@ -17,6 +17,7 @@ void AHealthPack::CheckActorType(AActor* OverlappedActor, AActor* OtherActor)
 //open the door
 void AHealthPack::Apply(AActor* MazeCharacter)
 {
+    UGameplayStatics::PlaySound2D(this, pickupSound);
     AMazeCharacter* Character = Cast<AMazeCharacter>(MazeCharacter);
     if (Character)
     {

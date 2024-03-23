@@ -4,6 +4,7 @@
 //include needed files
 #include "CoreMinimal.h"
 #include "Engine/TriggerBox.h"
+#include "Kismet/GameplayStatics.h"
 #include "LockAndKey.generated.h"
 
 /**
@@ -21,4 +22,6 @@ public:
 		void CheckActorType(class AActor* OverlappedActor, class AActor* OtherActor);
 	UFUNCTION()
 		void OpenTheDoor();
+	UPROPERTY(EditAnywhere)
+		USoundWave* doorSound;
 };

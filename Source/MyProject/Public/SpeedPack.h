@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/TriggerBox.h"
+#include "Kismet/GameplayStatics.h"
 #include "SpeedPack.generated.h"
 
 /**
@@ -15,6 +16,8 @@ class MYPROJECT_API ASpeedPack : public ATriggerBox
 	GENERATED_BODY()
 public:
 	ASpeedPack();
+	UPROPERTY(EditAnywhere)
+		USoundWave* pickupSound;
 protected:
 	UPROPERTY(EditAnywhere)
 		float SpeedAmount;

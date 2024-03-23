@@ -34,6 +34,7 @@ void ANPCEnemy::DetectHit()
 	FString ownerName = this->GetName();
 	if (Hit)
 	{
+		UGameplayStatics::PlaySound2D(this, punchSound);
 		for (const FHitResult HitResult : HitArray)
 		{
 			if (canDamage)

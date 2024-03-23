@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/TriggerBox.h"
+#include "Kismet/GameplayStatics.h"
 #include "HealthPack.generated.h"
 
 /**
@@ -21,4 +22,7 @@ protected:
 		void CheckActorType(class AActor* OverlappedActor, class AActor* OtherActor);
 	UFUNCTION()
 		void Apply(class AActor* AMazeCharacter);
+public:
+	UPROPERTY(EditAnywhere)
+		USoundWave* pickupSound;
 };

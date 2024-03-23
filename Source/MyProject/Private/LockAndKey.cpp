@@ -17,5 +17,6 @@ void ALockAndKey::CheckActorType(AActor* OverlappedActor, AActor* OtherActor)
 //open the door
 void ALockAndKey::OpenTheDoor()
 {
+	UGameplayStatics::PlaySound2D(this, doorSound);
 	this->Destroy();
 }
